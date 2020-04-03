@@ -8,7 +8,9 @@ import { throwError, BehaviorSubject, fromEventPattern } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Compromisso } from 'src/app/model/compromisso.model';
 import { Medico } from 'src/app/model/medico.model';
-
+import {NgbModal, ModalDismissReasons, NgbModalOptions} from '@ng-bootstrap/ng-bootstrap';
+import { CreateMedicoComponent } from '../create-medico/create-medico.component';
+ 
 @Component({
   selector: 'app-start',
   templateUrl: './start.component.html',
@@ -23,8 +25,12 @@ export class StartComponent implements OnInit {
   list: Array<Compromisso> = new Array();
   error: string = null;
   nome: string = null;
-  
-  constructor(private compromissoApi: CompromissoControllerService, private medicoApi: MedicoControllerService) { }
+
+  title = 'ng-bootstrap-modal-demo';
+  closeResult: string;
+  modalOptions:NgbModalOptions;
+ 
+  constructor(private modalService: NgbModal, private compromissoApi: CompromissoControllerService, private medicoApi: MedicoControllerService) { }
   
   ngOnInit(): void {
     const userData: {
@@ -33,6 +39,11 @@ export class StartComponent implements OnInit {
     this.nome = 'Bem vindo ' + userData.nome + ' !!';
     this.getMedicos();
     this.getConsultasByPessoa();
+
+    this.modalOptions = {
+      backdrop:'static',
+      backdropClass:'customBackdrop'
+    }
     
   }
   
@@ -78,5 +89,9 @@ export class StartComponent implements OnInit {
     this.error = errorMessage;
     return throwError(errorMessage);
   }
+
   
+  open() {
+    const modalRef = this.modalService.open(CreateMedicoComponent);
+  }
 }

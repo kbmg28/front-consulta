@@ -13,6 +13,9 @@ import { EditComponent } from './painel/edit/edit.component';
 import { ListComponent } from './painel/list/list.component';
 import { DetailComponent } from './painel/detail/detail.component';
 import { StartComponent } from './painel/start/start.component';
+import { CreateMedicoComponent } from './painel/create-medico/create-medico.component';
+
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -24,6 +27,7 @@ import { StartComponent } from './painel/start/start.component';
     ListComponent,
     DetailComponent,
     StartComponent,
+    CreateMedicoComponent,
   ],
   imports: [
     FormsModule,
@@ -31,7 +35,11 @@ import { StartComponent } from './painel/start/start.component';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ApiModule
+    ApiModule,
+    NgbModule
+  ],
+  entryComponents:[
+    CreateMedicoComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -20,7 +20,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr mdbTableCol *ngFor="let e of list; let i = index">
+                        <tr mdbTableCol *ngFor="let e of listConsultas; let i = index">
                             <th scope="row">{{i+1}}</th>
                             <td>{{e.medico.nomeMedico}}</td>
                             <td>{{e.dataHoraConsulta}}</td>

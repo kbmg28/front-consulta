@@ -1,8 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MedicoControllerService } from 'src/app/typescript-angular-client';
+import { MedicoControllerService, CompromissoBodyDto, CompromissoControllerService } from 'src/app/typescript-angular-client';
 import { Medico } from 'src/app/model/medico.model';
+import { PainelService } from '../painel.service';
 
 @Component({
   selector: 'app-create-compromisso',
@@ -14,14 +15,15 @@ export class CreateCompromissoComponent {
   @Input()id: number;
   myForm: FormGroup;
   error: string = null;
-  allMedicos = [ "medico 1", "medico 2", "medico 3", "medico 4" ] 
   
+  selectedMedico: Medico = new Medico(null, null);
   listMedicos: Array<Medico> = new Array();
-
+  formControlName
   constructor(
    public activeModal: NgbActiveModal,
    private formBuilder: FormBuilder,
-   private medicoApi: MedicoControllerService
+   private compromissoApi: CompromissoControllerService
+   , private painelService: PainelService
   ) {
     this.createForm();
     this.getMedicos();
@@ -30,26 +32,35 @@ export class CreateCompromissoComponent {
 
   private createForm() {
     this.myForm = this.formBuilder.group({
-      nomeMedico: ['', Validators.required]
+      medico: ['', Validators.required]
     });
   }
   
-  public submitForm() {
-    console.log(this.myForm.value)
-    this.activeModal.close(this.myForm.value);
-  }
-
   private getMedicos(){
-    
-    this.medicoApi.findAllUsingGET1().subscribe(resp => {
-      resp.data.forEach(e => {
-        this.listMedicos.push(e);
-      });
-      this.error = null;
-    },
-    errorMessage => {
-    })
+    this.painelService.getAllMedicos();
+   this.painelService.dataMedico$.subscribe( resp => {
+     this.listMedicos = resp;
+   })
   }
   
+  public submitForm() {
+    
+    const userData: {
+      nome: string;
+      userId: number;
+    } = JSON.parse(localStorage.getItem('userData'));
+
+    let compromissoBodyDto: CompromissoBodyDto = {
+      idMedico: this.selectedMedico.idMedico,
+      idPessoa: userData.userId
+    };
+    
+    this.compromissoApi.createUsingPOST(compromissoBodyDto).subscribe(resp =>{
+          
+    })
+    
+    this.activeModal.close(this.myForm.value);
+  }
+   
 
 }

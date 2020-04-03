@@ -9,9 +9,8 @@
     
     <div class="form-group" style="padding: 20px;">
         <label for="formControlSelectMedico">Médico</label>
-        <select class="form-control" id="exampleFormControlSelect1" formControlName="nomeMedico" placeholder="a">
-            <option >Selecione</option>
-            <option *ngFor="let med of listMedicos" >
+        <select class="form-control" id="exampleFormControlSelect1" formControlName="medico" [(ngModel)]="selectedMedico">
+            <option *ngFor="let med of listMedicos"[ngValue]="med" >
                 {{ med.nomeMedico }}
             </option>
         </select>

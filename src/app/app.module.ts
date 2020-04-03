@@ -16,6 +16,7 @@ import { StartComponent } from './painel/start/start.component';
 import { CreateMedicoComponent } from './painel/create-medico/create-medico.component';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CreateCompromissoComponent } from './painel/create-compromisso/create-compromisso.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     DetailComponent,
     StartComponent,
     CreateMedicoComponent,
+    CreateCompromissoComponent,
   ],
   imports: [
     FormsModule,

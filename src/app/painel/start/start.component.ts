@@ -10,6 +10,8 @@ import { Compromisso } from 'src/app/model/compromisso.model';
 import { Medico } from 'src/app/model/medico.model';
 import {NgbModal, ModalDismissReasons, NgbModalOptions} from '@ng-bootstrap/ng-bootstrap';
 import { CreateMedicoComponent } from '../create-medico/create-medico.component';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { CreateCompromissoComponent } from '../create-compromisso/create-compromisso.component';
  
 @Component({
   selector: 'app-start',
@@ -18,6 +20,8 @@ import { CreateMedicoComponent } from '../create-medico/create-medico.component'
 })
 export class StartComponent implements OnInit {
   
+ editProfileForm: FormGroup;
+ 
   headElementsMedico = ['#', 'Médico'];
   listMedicos: Array<Medico> = new Array();
 
@@ -30,10 +34,10 @@ export class StartComponent implements OnInit {
   closeResult: string;
   modalOptions:NgbModalOptions;
  
-  constructor(private modalService: NgbModal, private compromissoApi: CompromissoControllerService, private medicoApi: MedicoControllerService) { }
+  constructor(private fb: FormBuilder, private modalService: NgbModal, private compromissoApi: CompromissoControllerService, private medicoApi: MedicoControllerService) { }
   
   ngOnInit(): void {
-    const userData: {
+    const userData: { 
       nome: string;
     } = JSON.parse(localStorage.getItem('userData'));
     this.nome = 'Bem vindo ' + userData.nome + ' !!';
@@ -44,6 +48,13 @@ export class StartComponent implements OnInit {
       backdrop:'static',
       backdropClass:'customBackdrop'
     }
+
+    this.editProfileForm = this.fb.group({
+      firstname: [''],
+      lastname: [''],
+      username: [''],
+      email: ['']
+     });
     
   }
   
@@ -91,7 +102,10 @@ export class StartComponent implements OnInit {
   }
 
   
-  open() {
-    const modalRef = this.modalService.open(CreateMedicoComponent);
+  public open(cadastraMedico:boolean) {
+    const modalRef = this.modalService.open(cadastraMedico ? CreateMedicoComponent : CreateCompromissoComponent, {
+        windowClass: 'modal-holder',
+        centered: true
+    });
   }
 }
